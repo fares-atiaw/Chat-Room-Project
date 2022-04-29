@@ -1,7 +1,8 @@
-import 'package:chat_app/UI/Screens/register_screen.dart';
+import 'package:chat_app/UI_VM/Login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'UI_VM/Register/register_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,8 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chat App',
-      routes: {RegisterScreen.routeName: (context) => RegisterScreen()},
-      initialRoute: RegisterScreen.routeName,
+      routes: {
+        RegisterScreen.routeName: (context) => RegisterScreen(),
+        LoginScreen.routeName: (context) => LoginScreen()
+      },
+      initialRoute: LoginScreen.routeName,
     );
   }
 }

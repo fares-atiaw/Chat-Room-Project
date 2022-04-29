@@ -1,5 +1,6 @@
-import 'package:chat_app/Tools/connector.dart';
-import 'package:chat_app/UI/Screens/register_vm.dart';
+import 'package:chat_app/Tools/base_transactions.dart';
+import 'package:chat_app/UI_VM/Login/login_screen.dart';
+import 'package:chat_app/UI_VM/Register/register_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +11,9 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> implements Connector {
-  VM_Register viewModel = VM_Register();
+class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register> {
+  @override
+  VM_Register initialViewModel() => VM_Register();
   final _formKey = GlobalKey<FormState>(); //As a reference
   String firstName = '';
   String lastName = '';
@@ -22,8 +24,9 @@ class _RegisterScreenState extends State<RegisterScreen> implements Connector {
   @override
   void initState() {
     super.initState();
-    viewModel.connector =
-        this; //'this' refers to what ? ,,, I know we could use setters and getters OR callback in parameters!
+    print('Register Screen     initState()');
+    viewModel.navigator =
+        this; //^this^ refers to the object of this class and assigning its BaseNavigator properties.
   }
 
   @override
@@ -57,6 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> implements Connector {
                 //Act as a unique identifier for that Form(). So that, we can get its properties after that.
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
                       decoration: InputDecoration(
@@ -138,7 +142,17 @@ class _RegisterScreenState extends State<RegisterScreen> implements Connector {
                     ),
                     ElevatedButton(
                         onPressed: () => validateForm(context),
-                        child: Text('Create Account'))
+                        child: Text('Create Account')),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                        child: Text(
+                          'Already have an account',
+                          textAlign: TextAlign.start,
+                        ),
+                        onTap: () =>
+                            Navigator.pushNamed(context, LoginScreen.routeName))
                   ],
                 ),
               ),
@@ -153,6 +167,15 @@ class _RegisterScreenState extends State<RegisterScreen> implements Connector {
     if (_formKey.currentState!.validate()) {
       viewModel.register(context, email, password);
     }
+  }
+
+/*
+  VM_Register viewModel = VM_Register();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.connector = this; //^this^ refers to the object of this class and assigning its Connector properties.
   }
 
   @override
@@ -194,4 +217,5 @@ class _RegisterScreenState extends State<RegisterScreen> implements Connector {
           );
         });
   }
+  */
 }
