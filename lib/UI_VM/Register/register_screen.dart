@@ -1,8 +1,12 @@
+import 'package:chat_app/Model/M_User.dart';
 import 'package:chat_app/Tools/base_transactions.dart';
 import 'package:chat_app/UI_VM/Login/login_screen.dart';
+import 'package:chat_app/UI_VM/Register/register_navigator.dart';
 import 'package:chat_app/UI_VM/Register/register_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../Home/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
@@ -11,7 +15,8 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register> {
+class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
+    implements RegisterNavigator {
   @override
   VM_Register initialViewModel() => VM_Register();
   final _formKey = GlobalKey<FormState>(); //As a reference
@@ -116,7 +121,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register> {
                         if (value == null || value.trim().isEmpty)
                           return 'Please enter some text';
                         else if (!RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value))
                           return 'Wrong format';
                         // else if (value.contains(" "))
@@ -165,9 +170,22 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register> {
 
   void validateForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      viewModel.register(context, email, password);
+      viewModel.register(
+          context,
+          M_User(
+              fName: firstName,
+              lName: lastName,
+              email: email,
+              username: username),
+          password);
     }
   }
+
+  @override
+  void goHomeScreen() {
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+  }
+}
 
 /*
   VM_Register viewModel = VM_Register();
@@ -218,4 +236,3 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register> {
         });
   }
   */
-}

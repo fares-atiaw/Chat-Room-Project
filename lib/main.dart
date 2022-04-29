@@ -2,6 +2,7 @@ import 'package:chat_app/UI_VM/Login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'UI_VM/Home/home_screen.dart';
 import 'UI_VM/Register/register_screen.dart';
 import 'firebase_options.dart';
 
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       title: 'Chat App',
       routes: {
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        LoginScreen.routeName: (context) => LoginScreen()
+        LoginScreen.routeName: (context) => LoginScreen(),
+        HomeScreen.routeName: (context) => HomeScreen()
       },
       initialRoute: LoginScreen.routeName,
     );

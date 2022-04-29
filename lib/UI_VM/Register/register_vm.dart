@@ -1,20 +1,30 @@
+import 'package:chat_app/Database/database_utility.dart';
+import 'package:chat_app/Model/M_User.dart';
 import 'package:chat_app/Tools/base_transactions.dart';
+import 'package:chat_app/UI_VM/Register/register_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class VM_Register extends BaseViewModel<BaseNavigator> {
+class VM_Register extends BaseViewModel<RegisterNavigator> {
   FirebaseAuth credential = FirebaseAuth.instance;
   late UserCredential result;
-  late String message;
+  String? message;
 
   Future<void> register(
-      BuildContext context, String emailAddress, String password) async {
+      BuildContext context, M_User userData, String password) async {
     try {
       navigator?.showLoading();
+
       result = await credential.createUserWithEmailAndPassword(
-          email: emailAddress, password: password);
+          email: userData.email!, password: password);
+      userData.id = result.user?.uid ?? "";
+      await Database_Utilities.create_userData(
+          result.user?.uid ?? "", userData);
+
+      navigator?.hideDialog();
       message =
-          'The account created successfully ! \n\n Email : ${result.user?.email}';
+          'The account created successfully ! \n\n Email : ${result.user?.email}'; //Toast
+      navigator?.goHomeScreen();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         message = 'The password provided is too weak';
@@ -22,9 +32,10 @@ class VM_Register extends BaseViewModel<BaseNavigator> {
         message = 'The account already exists for that email.';
       }
     } catch (e) {
-      message = 'Error \n $e';
+      message = 'Error \n';
+      print('Error \n $e');
     }
     navigator?.hideDialog();
-    navigator?.showMessage(message);
+    if (message != null) navigator?.showMessage(message!);
   }
 }

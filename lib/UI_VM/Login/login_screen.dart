@@ -1,4 +1,7 @@
+import 'package:chat_app/Model/M_User.dart';
 import 'package:chat_app/Tools/base_transactions.dart';
+import 'package:chat_app/UI_VM/Home/home_screen.dart';
+import 'package:chat_app/UI_VM/Login/login_navigator.dart';
 import 'package:chat_app/UI_VM/Login/login_vm.dart';
 import 'package:chat_app/UI_VM/Register/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends BaseState<LoginScreen, VM_Login> {
+class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
+    implements LoginNavigator {
   @override
   VM_Login initialViewModel() =>
       viewModel = VM_Login(); // You get *viewModel* from the BaseState
@@ -69,7 +73,7 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login> {
                         if (value == null || value.trim().isEmpty)
                           return 'Please enter some text';
                         else if (!RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value))
                           return 'Wrong format';
                         // else if (value.contains(" "))
@@ -118,8 +122,12 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login> {
 
   void validateForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      viewModel.sign_in(
-          context: context, emailAddress: email, password: password);
+      viewModel.sign_in(emailAddress: email, password: password);
     }
+  }
+
+  @override
+  void goHomeScreen(M_User data) {
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 }
