@@ -1,4 +1,6 @@
 class M_User {
+  static const String CollectionName = 'M_User';
+
   String? id;
   String? fName;
   String? lName;

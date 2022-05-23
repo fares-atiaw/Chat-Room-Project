@@ -37,6 +37,19 @@ dependencies:
   firebase_auth: ^3.3.15
   provider: ^6.0.2
   fluttertoast: ^8.0.9
+  flutter_native_splash: ^2.1.6
+
+#flutter clean
+#flutter pub get
+#flutter pub run flutter_native_splash:create       # for each update
+flutter_native_splash:
+  image: assests/3x/splash_icon@3x.png
+  color: "#ffffff"
+  color_dark: "#000000"
+#  background_image: "#fff"
+#  background_image_dark: "000000"
+#  android: true
+#  ios: true
 
 dev_dependencies:
   flutter_test:

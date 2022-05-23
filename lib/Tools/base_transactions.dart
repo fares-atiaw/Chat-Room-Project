@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class BaseNavigator {
   void showLoading({String? loadingMessage});
-
   void showMessage(String message);
-
   void hideDialog();
 }
 
@@ -20,7 +18,7 @@ abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
   @override
   void initState() {
     super.initState();
-    print('base_transactions     initState()');
+    // print('base_transactions @ initState()');
     viewModel = initialViewModel();
   }
 

@@ -16,7 +16,9 @@ class Database_Utilities {
   }
 
   static Future<M_User?> get_userData(String authID) async {
-    return await MyUser.doc(authID).get().then((value) => value.data());
+    return await MyUser.doc(authID)
+        .get()
+        .then((value) => value.data())
+        .catchError((error) => print("Failed to login: $error"));
   }
-
 }

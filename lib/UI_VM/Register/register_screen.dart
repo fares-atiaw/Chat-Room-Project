@@ -25,11 +25,14 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
   String email = '';
   String password = '';
   String username = '';
+  bool first_validation = false;
+
+  bool invisible = true; //make it invisible for the Password
 
   @override
   void initState() {
     super.initState();
-    print('Register Screen     initState()');
+    print('Register Screen @ initState()');
     viewModel.navigator =
         this; //^this^ refers to the object of this class and assigning its BaseNavigator properties.
   }
@@ -56,109 +59,139 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
               centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
-              title: Text('Create Account'),
+              title: Text('Create Account', style: TextStyle(fontSize: 24)),
             ),
-            body: Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                //Act as a unique identifier for that Form(). So that, we can get its properties after that.
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'First Name',
-                      ),
-                      keyboardType: TextInputType.name,
-                      onChanged: (x) => firstName = x,
-                      textInputAction: TextInputAction.next,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Please enter some text';
-                        else
-                          return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Last Name',
-                      ),
-                      keyboardType: TextInputType.name,
-                      onChanged: (x) => lastName = x,
-                      textInputAction: TextInputAction.next,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Please enter some text';
-                        else
-                          return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                      ),
-                      onChanged: (x) => username = x,
-                      textInputAction: TextInputAction.next,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Please enter some text';
-                        else if (value.contains(" "))
-                          return 'Username can\'t contains whitespace';
-                        else
-                          return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                      ),
-                      //keyboardType: TextInputType.emailAddress,
-                      onChanged: (x) => email = x,
-                      textInputAction: TextInputAction.next,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Please enter some text';
-                        else if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value))
-                          return 'Wrong format';
-                        // else if (value.contains(" "))
-                        //   return 'Username can\'t contains whitespace';
-                        else
-                          return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                      ),
-                      onChanged: (x) => password = x,
-                      textInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Needed password';
-                        else if (value.trim().length < 6)
-                          return 'The password must be at least six characters';
-                        else
-                          return null;
-                      },
-                    ),
-                    ElevatedButton(
-                        onPressed: () => validateForm(context),
-                        child: Text('Create Account')),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    InkWell(
-                        child: Text(
-                          'Already have an account',
-                          textAlign: TextAlign.start,
+            body: Center(
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 8,
+                    right: 8,
+                    left: 8,
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                // padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: first_validation
+                        ? AutovalidateMode.onUserInteraction
+                        : AutovalidateMode.disabled,
+                    // autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //Act as a unique identifier for that Form(). So that, we can get its properties after that.
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'First Name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          keyboardType: TextInputType.name,
+                          onChanged: (x) => firstName = x,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty)
+                              return 'Please enter some text';
+                            else
+                              return null;
+                          },
                         ),
-                        onTap: () =>
-                            Navigator.pushNamed(context, LoginScreen.routeName))
-                  ],
+                        SizedBox(height: 8),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'Last Name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          keyboardType: TextInputType.name,
+                          onChanged: (x) => lastName = x,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty)
+                              return 'Please enter some text';
+                            else
+                              return null;
+                          },
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.person),
+                              labelText: 'Username',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          onChanged: (x) => username = x,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty)
+                              return 'Please enter some text';
+                            else if (value.contains(" "))
+                              return 'Username can\'t contains whitespace';
+                            else
+                              return null;
+                          },
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.alternate_email),
+                              labelText: 'Email',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          //keyboardType: TextInputType.emailAddress,
+                          onChanged: (x) => email = x,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty)
+                              return 'Please enter some text';
+                            else if (!RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value))
+                              return 'Wrong format';
+                            // else if (value.contains(" "))
+                            //   return 'Username can\'t contains whitespace';
+                            else
+                              return null;
+                          },
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          obscureText: invisible,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              suffixIcon: GestureDetector(
+                                onTap: toggling,
+                                child: Icon(Icons.remove_red_eye),
+                              ),
+                              labelText: 'Password',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25))),
+                          onChanged: (x) => password = x,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty)
+                              return 'Needed password';
+                            else if (value.trim().length < 6)
+                              return 'The password must be at least six characters';
+                            else
+                              return null;
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () => validateForm(context),
+                            child: Text('Create Account')),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                            child: Text(
+                              'Already have an account',
+                              textAlign: TextAlign.start,
+                            ),
+                            onTap: () => Navigator.pushNamed(
+                                context, LoginScreen.routeName))
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -169,21 +202,30 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
   }
 
   void validateForm(BuildContext context) {
+    first_validation = true;
     if (_formKey.currentState!.validate()) {
       viewModel.register(
-          context,
           M_User(
               fName: firstName,
               lName: lastName,
               email: email,
               username: username),
           password);
-    }
+    } else
+      setState(() {});
   }
 
   @override
   void goHomeScreen() {
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+  }
+
+  void toggling() {
+    if (invisible == true) {
+      setState(() => invisible = false);
+    } else if (invisible == false) {
+      setState(() => invisible = true);
+    }
   }
 }
 

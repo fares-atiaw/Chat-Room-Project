@@ -3,15 +3,13 @@ import 'package:chat_app/Model/M_User.dart';
 import 'package:chat_app/Tools/base_transactions.dart';
 import 'package:chat_app/UI_VM/Register/register_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class VM_Register extends BaseViewModel<RegisterNavigator> {
   FirebaseAuth credential = FirebaseAuth.instance;
   late UserCredential result;
   String? message;
 
-  Future<void> register(
-      BuildContext context, M_User userData, String password) async {
+  Future<void> register(M_User userData, String password) async {
     try {
       navigator?.showLoading();
 
