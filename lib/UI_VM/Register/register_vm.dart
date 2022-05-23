@@ -14,10 +14,13 @@ class VM_Register extends BaseViewModel<RegisterNavigator> {
       navigator?.showLoading();
 
       result = await credential.createUserWithEmailAndPassword(
-          email: userData.email!, password: password);
-      userData.id = result.user?.uid ?? "";
+          email: userData.email!,
+          password:
+              password); //Creating email and password plus generating their ID.
+      userData.id =
+          result.user?.uid ?? ""; //Assigning the generated ID in *userData* .
       await Database_Utilities.create_userData(
-          result.user?.uid ?? "", userData);
+          userData); //Creating a record in M_user table associated with the generated ID.
 
       navigator?.hideDialog();
       message =

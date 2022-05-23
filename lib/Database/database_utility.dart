@@ -3,14 +3,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Model/M_User.dart';
 
 class Database_Utilities {
-  static final MyUser = FirebaseFirestore.instance.collection('M_User')
-      .withConverter<M_User>(
-    fromFirestore: (snapshot, _) => M_User.fromJson(snapshot.data()!),
-    toFirestore: (user, _) => user.toJson(),
-  );
+  static final MyUser =
+      FirebaseFirestore.instance.collection('M_User').withConverter<M_User>(
+            fromFirestore: (snapshot, _) => M_User.fromJson(snapshot.data()!),
+            toFirestore: (user, _) => user.toJson(),
+          );
 
-  static Future<void> create_userData(String authID, M_User userData) {
-    return MyUser.doc(authID).set(userData)
+  // static Future<void> create_userData(String authID, M_User userData) {
+  //   return MyUser.doc(authID).set(userData)
+  //       .then((value) => print("User Added"))
+  //       .catchError((error) => print("Failed to add user: $error"));
+  // }
+  static Future<void> create_userData(M_User userData) {
+    return MyUser.doc(userData.id)
+        .set(userData)
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
