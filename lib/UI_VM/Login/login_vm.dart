@@ -25,14 +25,20 @@ class VM_Login extends BaseViewModel<LoginNavigator> {
       else {
         navigator?.hideDialog();
         message =
-            'Login successfully ! \n\n Email : ${result.user?.email}'; //Toast
+            'Login successfully ! \n\t Email : ${result.user?.email}'; //Toast
+
         navigator?.goHomeScreen(userData);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         message = 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        message = 'Wrong password provided for that user.';
+        message = 'Wrong password provided.';
+      } else if (e.code == 'invalid-email') {
+        message = 'The email address is not valid';
+      } else if (e.code == 'user-disabled') {
+        message =
+            'The given email has been disabled.'; //The user corresponding to the given email has been disabled
       }
     } catch (e) {
       message = 'Error \n $e';

@@ -6,6 +6,7 @@ import 'package:chat_app/UI_VM/Register/register_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Provider/user_provider.dart';
 import '../Home/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -34,25 +35,26 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
     super.initState();
     print('Register Screen @ initState()');
     viewModel.navigator =
-        this; //^this^ refers to the object of this class and assigning its BaseNavigator properties.
+        this; //^this^ refers to the object of this class as [RegisterNavigator] and assigning its [BaseNavigator] properties.
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: ((context) => viewModel),
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Image.asset(
-              'assests/background.png',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.fill,
-            ),
+    // ChangeNotifierProvider(
+    //       create: ((context) => viewModel),
+    //       child:
+    return Stack(
+      children: [
+        Container(
+          color: Colors.white,
+          child: Image.asset(
+            'assests/background.png',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
           ),
-          Scaffold(
+        ),
+        Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -183,21 +185,20 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
                           height: 10,
                         ),
                         InkWell(
-                            child: Text(
-                              'Already have an account',
-                              textAlign: TextAlign.start,
-                            ),
-                            onTap: () => Navigator.pushNamed(
-                                context, LoginScreen.routeName))
-                      ],
-                    ),
+                          child: Text(
+                            'Already have an account',
+                            textAlign: TextAlign.start,
+                          ),
+                          onTap: () => Navigator.pushNamed(
+                              context, LoginScreen.routeName))
+                    ],
                   ),
                 ),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -216,16 +217,21 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
   }
 
   @override
-  void goHomeScreen() {
+  void goHomeScreen(user) {
+    context.read<UserProvider>().userData = user;
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    // Navigator.pushReplacementNamed(context, HomeScreen.routeName, arguments: data);
   }
 
   void toggling() {
-    if (invisible == true) {
-      setState(() => invisible = false);
-    } else if (invisible == false) {
-      setState(() => invisible = true);
-    }
+    (invisible == true)
+        ? setState(() => invisible = false)
+        : setState(() => invisible = true);
+    // if (invisible == true) {
+    //   setState(() => invisible = false);
+    // } else if (invisible == false) {
+    //   setState(() => invisible = true);
+    // }
   }
 }
 

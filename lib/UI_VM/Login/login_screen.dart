@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:chat_app/Model/M_User.dart';
 import 'package:chat_app/Tools/base_transactions.dart';
 import 'package:chat_app/UI_VM/Home/home_screen.dart';
 import 'package:chat_app/UI_VM/Login/login_navigator.dart';
@@ -9,6 +8,8 @@ import 'package:chat_app/UI_VM/Register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
+
+import '../../Provider/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = 'login';
@@ -25,39 +26,38 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
   final _formKey = GlobalKey<FormState>(); //As a reference
   String email = '';
   String password = '';
-
   bool first_validation = false;
   bool invisible = true; //make it invisible for the Password
 
   @override
   void initState() {
     super.initState();
-    viewModel.navigator = this;
-    initialization();
+    viewModel.navigator =
+        this; //^this^ refers to the object of this class as [LoginNavigator] and assigning its [BaseNavigator] properties.
+    removeSplash();
   }
 
-  void initialization() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    print('go!');
+  void removeSplash() {
     FlutterNativeSplash.remove();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<VM_Login>(
-      create: ((context) => viewModel),
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Image.asset(
-              'assests/background.png',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.fill,
-            ),
+    //ChangeNotifierProvider<VM_Login>(
+    //       create: ((context) => viewModel),
+    //       child:
+    return Stack(
+      children: [
+        Container(
+          color: Colors.white,
+          child: Image.asset(
+            'assests/background.png',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
           ),
-          Scaffold(
+        ),
+        Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -137,17 +137,16 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
                     InkWell(
                         child: Text(
                           'Or create my account',
-                          textAlign: TextAlign.start,
-                        ),
-                        onTap: () => Navigator.pushReplacementNamed(
-                            context, RegisterScreen.routeName))
-                  ],
-                ),
+                        textAlign: TextAlign.start,
+                      ),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, RegisterScreen.routeName))
+                ],
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -161,8 +160,10 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
   }
 
   @override
-  void goHomeScreen(M_User data) {
+  void goHomeScreen(user) {
+    context.read<UserProvider>().userData = user;
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    // Navigator.pushReplacementNamed(context, HomeScreen.routeName, arguments: data);
   }
 
   void toggling() {

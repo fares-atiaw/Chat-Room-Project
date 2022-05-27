@@ -14,11 +14,14 @@ class Database_Utilities {
   //       .then((value) => print("User Added"))
   //       .catchError((error) => print("Failed to add user: $error"));
   // }
-  static Future<void> create_userData(M_User userData) {
-    return MyUser.doc(userData.id)
+  static Future<M_User?> create_userData(M_User userData) {
+    MyUser.doc(userData.id)
         .set(userData)
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
+
+    return get_userData(userData.id ??
+        ""); // If I have a free time, I will check for a better solution if exist.
   }
 
   static Future<M_User?> get_userData(String authID) async {
