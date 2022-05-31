@@ -224,9 +224,11 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
   }
 
   void toggling() {
-    (invisible == true)
-        ? setState(() => invisible = false)
-        : setState(() => invisible = true);
+    setState(() => invisible = !invisible);
+    // (invisible == true)
+    //     ? setState(() => invisible = false)
+    //     : setState(() => invisible = true);
+
     // if (invisible == true) {
     //   setState(() => invisible = false);
     // } else if (invisible == false) {

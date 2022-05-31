@@ -1,3 +1,4 @@
+import 'package:chat_app/UI_VM/AdditionRoom/add_room_screen.dart';
 import 'package:chat_app/UI_VM/Login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
       routes: {
         RegisterScreen.routeName: (context) => RegisterScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
-        HomeScreen.routeName: (context) => HomeScreen()
+        HomeScreen.routeName: (context) => HomeScreen(),
+        AdditionRoomScreen.routeName: (context) => AdditionRoomScreen()
       },
       initialRoute: (provider.firebaseUser == null)
           ? LoginScreen.routeName
@@ -47,4 +49,4 @@ class MyApp extends StatelessWidget {
 // explicit واضحة
 // implicit غامضة
 
-// We will save data by using provider, to make the usage of the date in the run time only not cashed.
+// We will save data by using provider, to make the usage of the date in the run time only not cashed. Btw, it is saved in the storage.
