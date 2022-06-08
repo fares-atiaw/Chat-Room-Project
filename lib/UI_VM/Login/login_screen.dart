@@ -75,18 +75,18 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
               // padding: const EdgeInsets.all(8.0),
               child: Form(
                 key: _formKey,
-                autovalidateMode: first_validation
-                    ? AutovalidateMode.onUserInteraction
-                    : AutovalidateMode.disabled,
-                //Act as a unique identifier for that Form(). So that, we can get its properties after that.
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.alternate_email),
-                          labelText: 'Email',
+              //Act as a unique identifier for that Form(). So that, we can get its properties after that.
+              autovalidateMode: first_validation
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.alternate_email),
+                        labelText: 'Email',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25))),
                       keyboardType: TextInputType.emailAddress,
@@ -118,25 +118,43 @@ class _LoginScreenState extends BaseState<LoginScreen, VM_Login>
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25))),
                       onChanged: (x) => password = x,
-                      textInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty)
-                          return 'Needed password';
-                        else if (value.trim().length < 6)
-                          return 'The password must be at least six characters';
-                        else
-                          return null;
-                      },
-                    ),
-                    ElevatedButton(
+                    textInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty)
+                        return 'Needed password';
+                      else if (value.trim().length < 6)
+                        return 'The password must be at least six characters';
+                      else
+                        return null;
+                    },
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.08),
+                    child: ElevatedButton(
                         onPressed: () => validateForm(context),
-                        child: Text('Login')),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    InkWell(
-                        child: Text(
-                          'Or create my account',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: const [
+                              Text(
+                                'Login',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 24),
+                              ),
+                              Icon(Icons.arrow_forward_outlined)
+                            ],
+                          ),
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                      child: const Text(
+                        'Or create my account',
                         textAlign: TextAlign.start,
                       ),
                       onTap: () => Navigator.pushReplacementNamed(

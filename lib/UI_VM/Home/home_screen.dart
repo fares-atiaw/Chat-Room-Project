@@ -1,4 +1,4 @@
-import 'package:chat_app/UI_VM/AdditionRoom/add_room_screen.dart';
+import 'package:chat_app/UI_VM/AdditionRoom/addition_screen.dart';
 import 'package:chat_app/UI_VM/Home/home_navigator.dart';
 import 'package:chat_app/UI_VM/Home/home_vm.dart';
 import 'package:chat_app/UI_VM/Login/login_screen.dart';
@@ -26,6 +26,7 @@ class _HomeScreenState extends BaseState<HomeScreen, VM_Home>
   void initState() {
     super.initState();
     removeSplash();
+    viewModel.navigator = this;
   }
 
   void removeSplash() {
@@ -61,7 +62,7 @@ class _HomeScreenState extends BaseState<HomeScreen, VM_Home>
               icon: Icon(Icons.arrow_back),
               splashColor: Colors.grey,
             ),
-            shape: BeveledRectangleBorder(
+            shape: const BeveledRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(12),
                     bottomLeft: Radius.circular(12))),

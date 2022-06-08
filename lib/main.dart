@@ -1,4 +1,4 @@
-import 'package:chat_app/UI_VM/AdditionRoom/add_room_screen.dart';
+import 'package:chat_app/UI_VM/AdditionRoom/addition_screen.dart';
 import 'package:chat_app/UI_VM/Login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

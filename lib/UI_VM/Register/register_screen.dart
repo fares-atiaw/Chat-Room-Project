@@ -168,24 +168,45 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25))),
                           onChanged: (x) => password = x,
-                          textInputAction: TextInputAction.done,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty)
-                              return 'Needed password';
-                            else if (value.trim().length < 6)
-                              return 'The password must be at least six characters';
-                            else
-                              return null;
-                          },
-                        ),
-                        ElevatedButton(
+                        textInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty)
+                            return 'Needed password';
+                          else if (value.trim().length < 6)
+                            return 'The password must be at least six characters';
+                          else
+                            return null;
+                        },
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.08),
+                        child: ElevatedButton(
                             onPressed: () => validateForm(context),
-                            child: Text('Create Account')),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          child: Text(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: const [
+                                  Text(
+                                    'Create Account',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 24),
+                                  ),
+                                  Icon(Icons.person_add_outlined)
+                                ],
+                              ),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                          child: const Text(
                             'Already have an account',
                             textAlign: TextAlign.start,
                           ),
@@ -225,15 +246,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, VM_Register>
 
   void toggling() {
     setState(() => invisible = !invisible);
-    // (invisible == true)
-    //     ? setState(() => invisible = false)
-    //     : setState(() => invisible = true);
-
-    // if (invisible == true) {
-    //   setState(() => invisible = false);
-    // } else if (invisible == false) {
-    //   setState(() => invisible = true);
-    // }
   }
 }
 
